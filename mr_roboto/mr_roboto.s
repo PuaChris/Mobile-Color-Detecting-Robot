@@ -1,6 +1,7 @@
 .equ JP1, 0XFF200060
 .equ SP, 0X80000000
 .equ SOUND_500Hz, 0b1	# for global r15
+.equ PUSHBUTTONS, 0xFF200050
 
 /*
 Global register allocation:
@@ -18,8 +19,13 @@ _start:
 	call setup_global_interrupts
 	
 	# TESTING - always play 500Hz
-	movi r15, 1
+	#movi r15, 1
 loop:
+	# TESTING - play 500Hz when KEY0 is pressed
+	movia r16, PUSHBUTTONS
+	ldwio r17, 0(r16)
+	andi r15, r17, 0b1
+	
 	call detect_color
 	br loop
 end:
