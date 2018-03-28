@@ -1,22 +1,20 @@
-.section .text
 .equ JP1, 0XFF200060
 .equ SP, 0X80000000
-.equ AUDIO, 0xFF203040
-.equ SOUND_500Hz, 0b1
+.equ SOUND_500Hz, 0b1	# for global r15
 
 /*
-Register allocation
-
-Global:
+Global register allocation:
 r15 - sound to play (see constants)
 */
 
 
+.section .text
 .global _start
 _start:
 	movia sp, SP
+
 	call initialize
-	call setup_audio
+	call SetupAudio
 	call setup_global_interrupts
 loop:
 	call detect_color
@@ -127,31 +125,6 @@ stop_moving:
 	ldw r17, 4(sp)
 	ldw r18, 8(sp)
 	addi sp, sp, 12
-
-	ret
-
-
-
-
-setup_audio:
-	subi sp, sp, 8
-	stw r16, 0(sp)
-	stw r17, 4(sp)
-
-
-	# Setup audio device (write interrupt enable)
-	movia r16, AUDIO
-	movi r17, 0b10
-	stwio r17, (r16)
-
-	# Enable audio interrupt
-	movi r16, 1 << 6
-	wrctl ienable, r16
-
-
-	ldw r16, 0(sp)
-	ldw r17, 4(sp)
-	addi sp, sp, 8
 
 	ret
 
