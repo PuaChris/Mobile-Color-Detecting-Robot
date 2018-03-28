@@ -11,6 +11,8 @@
         <type>Assembly Program</type>
         <source_files>
             <source_file filepath="true">mr_roboto.s</source_file>
+            <source_file filepath="true">audio.s</source_file>
+            <source_file filepath="true">isr.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>

@@ -12,13 +12,18 @@ ISR:
     stw     r6, 20(sp)
     stw     r7, 24(sp)
 
-
-    # Check for audio interrupt
+    # Check for audio
     rdctl   et, ipending
     andi    et, et, 0b1 << 6
     bne     et, zero, ISRAudio
 
+	br ISREnd
 
+ISRAudio:
+	call HandleAudio
+	br ISREnd
+
+ISREnd:
     ldw     ra, 0(sp)
     ldw     r2, 4(sp)
     ldw     r3, 8(sp)
@@ -34,24 +39,25 @@ ISR:
 
 
 
-ISRAudio:
+# ------------------------------------------------------------------------------
+HandleAudio:
     subi    sp, sp, 8
     stw     ra, 0(sp)
     stw     r23, 4(sp)
 
     movi    r23, 1
-    beq     r15, r23, ISRAudio500Hz
-    br      ISRAudioEmpty
+    beq     r15, r23, HandleAudio500Hz
+    br      HandleAudioEmpty
 
-ISRAudio500Hz:
+HandleAudio500Hz:
     call    PlayAudio500Hz
-    br      ISRAudioEnd
+    br      HandleAudioEnd
 
-ISRAudioEmpty:
+HandleAudioEmpty:
     call    PlayAudioEmpty
-    br      ISRAudioEnd
+    br      HandleAudioEnd
 
-ISRAudioEnd:
+HandleAudioEnd:
     ldw     ra, 0(sp)
     ldw     r23, 4(sp)
     addi    sp, sp, 8

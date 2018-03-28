@@ -16,6 +16,9 @@ _start:
 	call initialize
 	call SetupAudio
 	call setup_global_interrupts
+	
+	# TESTING - always play 500Hz
+	movi r15, 1
 loop:
 	call detect_color
 	br loop
