@@ -17,6 +17,23 @@ ISR:
     andi    et, et, 0b1 << 6
     bne     et, zero, ISRAudio
 
+    #Check if sensors interrupt 
+    #Don't forget to clear the edge capture register after interrupting
+    /* Note: for lego controller interrupt, all sensors were initially set so they can interrupt.
+    However, when any one of the five sensors are triggered, ipending cannot tell which sensor specifically
+    caused the interrupt. 
+
+    Ideas: 
+        - Have all sensors set so they can interrupt. Once one of them interrupts, go into handler
+            and disable all sensors for interrupt. Then enable each sensor interrupt one by one and read from it to see 
+            which one was the trigger. When interrupt handler finishes, set all sensors to interrupt again
+            Note: interrupt will occur when a sensor PASSES the threshold value 
+
+        - Do not use interrupts and poll each sensor through a loop. Still able to do PWN inside that specific move_forward 
+            subroutine 
+    */
+
+
 	br ISREnd
 
 ISRAudio:
