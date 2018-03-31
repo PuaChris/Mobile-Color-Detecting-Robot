@@ -1,6 +1,7 @@
 .equ JP1, 0XFF200060
 .equ SP, 0X80000000
 .equ TIMER, 0xFF202000
+.equ DUTYCYCLE, 262150 #50% 
 .equ SOUND_500Hz, 0b1	# for global r15
 .equ PUSHBUTTONS, 0xFF200050
 
@@ -35,7 +36,24 @@ loop:
 end:
 	br end
 
+SetupTimer:
+	subi sp, sp, 8
+	stw r16, 0(sp)
+	stw r17, 0(sp)
 
+	movia r16, TIMER
+	stwio r0, (r16)
+	stwio r0, 4(r16)
+
+	movia r17, %lo(DUTYCYCLE)
+	stwio r17, 8(r16)
+
+	movia r17, %hi(DUTYCYCLE)
+	stwio r17, 12(r16)
+
+
+
+	
 SetupLego:
 	subi sp, sp, 12
 	stw r16, 0(sp)
