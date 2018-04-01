@@ -96,35 +96,62 @@ HandleSensor:
 
     movia   r16, JP1
 
+#check if bit is 1. If it is true, then move foward. Else move onto the next bit 
+#Once you found the bit that triggered the interrupt, check
+#but multiple sensors can trigger the interrupt...
+
+Sensor0:
     #Checking if sensor0 triggered the interrupt 
     ldwio   r17, 12(r16)
     andi    r17, r17, 0b1 << 27
-    bne     r17, zero, Move0
-    br      FinishCheck
-
+    bne     r17, zero, Interrupt0
+/*
+Sensor1:
     #Checking if sensor1 triggered the interrupt 
     ldwio   r17, 12(r16)
     andi    r17, r17, 0b1 << 28
-    bne     r17, zero, Move1
-    br      FinishCheck
+    bne     r17, zero, Interrupt1
 
+Sensor2:
     #Checking if sensor2 triggered the interrupt 
     ldwio   r17, 12(r16)
     andi    r17, r17, 0b1 << 29
-    bne     r17, zero, Move2
-    br      FinishCheck
+    bne     r17, zero, Interrupt2
 
+Sensor3:
     #Checking if sensor3 triggered the interrupt 
     ldwio   r17, 12(r16)
     andi    r17, r17, 0b1 << 30
-    bne     r17, zero, Move3
-    br      FinishCheck
+    bne     r17, zero, Interrupt3
 
+Sensor4:
     #Checking if sensor4 triggered the interrupt 
     ldwio   r17, 12(r16)
     andi    r17, r17, 0b1 << 31
-    bne     r17, zero, Move4
+    bne     r17, zero, Interrupt4
+*/
+    #At this point, at least ONE of the sensors triggered the interrupt...
     br      FinishCheck
+
+Interrupt0:
+    call Move0
+    br FinishCheck
+
+Interrupt1:
+    call Move1
+    br FinishCheck
+
+Interrupt2:
+    call Move2
+    br FinishCheck
+
+Interrupt3:
+    call Move4
+    br FinishCheck
+
+Interrupt4:
+    call Move4
+    br FinishCheck
 
 FinishCheck:
     #Resetting edge clear register
@@ -136,3 +163,4 @@ FinishCheck:
     ldw     r17, 8(sp)
 
     ret
+

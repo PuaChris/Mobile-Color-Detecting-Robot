@@ -1,8 +1,5 @@
 .section .text
 .global DetectColor
-.global False
-.global	True0
-.global True1
 .global FinishDetect
 
 DetectColor:
@@ -10,9 +7,8 @@ DetectColor:
 	stw 	ra,  0(sp)
 	stw 	r16, 4(sp)
 	stw 	r17, 8(sp)
-
-#if all sensors detect nothing, stop moving
-
+#any sensor = 0 means it is detecting a color
+#If all sensors are 1, then no sensors are detecting anything; Stop moving
 	movia 	r16, JP1
 
 	#sensor 0
@@ -46,7 +42,7 @@ DetectColor:
 	beq 	r17, r0, FinishDetect 
 */
 
-	#If all sensors are 1, then no sensors are detecting anything
+
 	call 	StopMoving
 
 FinishDetect:
