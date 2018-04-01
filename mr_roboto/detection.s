@@ -20,7 +20,7 @@ DetectColor:
 	srli 	r17, r17, 27
 	andi 	r17, r17, 0x1
 	beq 	r17, r0, FinishDetect
-
+/*
 	#sensor 1
 	ldwio 	r17, (r16)
 	srli 	r17, r17, 28
@@ -43,7 +43,8 @@ DetectColor:
 	ldwio 	r17, (r16)
 	srli 	r17, r17, 31
 	andi 	r17, r17, 0x1
-	beq 	r17, r0, FinishDetect
+	beq 	r17, r0, FinishDetect 
+*/
 
 	#If all sensors are 1, then no sensors are detecting anything
 	call 	StopMoving

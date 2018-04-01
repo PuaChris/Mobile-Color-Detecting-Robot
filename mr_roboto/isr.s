@@ -102,6 +102,30 @@ HandleSensor:
     bne     r17, zero, Move0
     br      FinishCheck
 
+    #Checking if sensor1 triggered the interrupt 
+    ldwio   r17, 12(r16)
+    andi    r17, r17, 0b1 << 28
+    bne     r17, zero, Move1
+    br      FinishCheck
+
+    #Checking if sensor2 triggered the interrupt 
+    ldwio   r17, 12(r16)
+    andi    r17, r17, 0b1 << 29
+    bne     r17, zero, Move2
+    br      FinishCheck
+
+    #Checking if sensor3 triggered the interrupt 
+    ldwio   r17, 12(r16)
+    andi    r17, r17, 0b1 << 30
+    bne     r17, zero, Move3
+    br      FinishCheck
+
+    #Checking if sensor4 triggered the interrupt 
+    ldwio   r17, 12(r16)
+    andi    r17, r17, 0b1 << 31
+    bne     r17, zero, Move4
+    br      FinishCheck
+
 FinishCheck:
     #Resetting edge clear register
     movia   r17, 0xFFFFFFFF
