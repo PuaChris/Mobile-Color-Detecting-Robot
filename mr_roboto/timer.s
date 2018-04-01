@@ -26,7 +26,7 @@ SetupTimer:
 	ret
 
 Delay: 
-	#could do this in an interrupt...
+	
 	subi sp, sp, 8
 	stw r16, (sp)
 	stw r17, 4(sp)
