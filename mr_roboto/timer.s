@@ -10,7 +10,7 @@
 SetupTimer:
 	subi 	sp, sp, 8
 	stw 	r16, 0(sp)
-	stw 	r17, 0(sp)
+	stw 	r17, 4(sp)
 
 	movia 	r16, TIMER
 	stwio 	r0, (r16)
@@ -18,13 +18,13 @@ SetupTimer:
 
 	ldw 	r16, 0(sp)
 	ldw 	r17, 4(sp)
-	addi 	sp, sp 8
+	addi 	sp, sp, 8
 	ret
 
 DelayON: 
 	subi 	sp, sp, 8
 	stw 	r16, 0(sp)
-	stw 	r17, 0(sp)
+	stw 	r17, 4(sp)
 
 	movia 	r17, %lo(PWM_ON)
 	stwio 	r17, 8(r16)
@@ -43,13 +43,13 @@ PollON:
 
 	ldw 	r16, 0(sp)
 	ldw 	r17, 4(sp)
-	addi 	sp, sp 8
+	addi 	sp, sp, 8
 	ret
 
 DelayOFF:
 	subi 	sp, sp, 8
 	stw 	r16, 0(sp)
-	stw 	r17, 0(sp)
+	stw 	r17, 4(sp)
 
 	movia 	r17, %lo(PWM_OFF)
 	stwio 	r17, 8(r16)
@@ -69,6 +69,6 @@ PollOFF:
 
 	ldw 	r16, 0(sp)
 	ldw 	r17, 4(sp)
-	addi 	sp, sp 8
+	addi 	sp, sp, 8
 	ret
 

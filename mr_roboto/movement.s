@@ -120,7 +120,7 @@ StopMoving:
 	ldw 	r16, 0(sp)
 	ldw 	r17, 4(sp)
 	ldw 	r18, 8(sp)
-	addi 	sp, sp, 16
+	addi 	sp, sp, 12
 
 	ret
 

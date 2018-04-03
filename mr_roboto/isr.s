@@ -20,6 +20,7 @@ ISR:
 
     #Check if sensors interrupt 
     #Don't forget to clear the edge capture register after interrupting
+	rdctl 	et, ipending
     andi    et, et, 0b1 << 11
     bne     et, zero, ISRSensor
 
@@ -89,10 +90,11 @@ HandleSensor:
     #still need to figure out how to stop it
 
 #DOUBLE CHECK IF RA IS NEEDED TO BE STORED ONTO THE STACK
-    subi    sp, sp, 12
+    subi    sp, sp, 16
     stw     ra,  0(sp)
     stw     r16, 4(sp)
     stw     r17, 8(sp)
+	stw 	r18, 12(sp)
 
     movia   r16, JP1
 
@@ -103,7 +105,8 @@ HandleSensor:
 Sensor0:
     #Checking if sensor0 triggered the interrupt 
     ldwio   r17, 12(r16)
-    andi    r17, r17, 0b1 << 27
+	movia 	r18, 0b1 << 27
+    and    	r17, r17, r18
     bne     r17, zero, Interrupt0
 /*
 Sensor1:
@@ -136,7 +139,7 @@ Sensor4:
 Interrupt0:
     call Move0
     br FinishCheck
-
+/*
 Interrupt1:
     call Move1
     br FinishCheck
@@ -152,7 +155,7 @@ Interrupt3:
 Interrupt4:
     call Move4
     br FinishCheck
-
+*/
 FinishCheck:
     #Resetting edge clear register
     movia   r17, 0xFFFFFFFF
@@ -161,6 +164,8 @@ FinishCheck:
     ldw     ra,  0(sp)
     ldw     r16, 4(sp)
     ldw     r17, 8(sp)
-
+	ldw 	r18, 12(sp)	
+	
+	addi 	sp, sp, 16
     ret
 

@@ -12,7 +12,7 @@ DetectColor:
 	movia 	r16, JP1
 
 	#sensor 0
-	ldwio 	r17, (r16)
+	ldwio 	r17, 0(r16)
 	srli 	r17, r17, 27
 	andi 	r17, r17, 0x1
 	beq 	r17, r0, FinishDetect

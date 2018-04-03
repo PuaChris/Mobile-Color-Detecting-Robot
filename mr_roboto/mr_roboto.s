@@ -9,7 +9,7 @@ Global register allocation:
 r15 - sound to play (see constants)
 */
 
-
+.global JP1
 .section .text
 .global _start
 _start:
@@ -18,18 +18,22 @@ _start:
 	call SetupTimer
 	call SetupLego
 	call SetupGlobalInterrupts
-	call SetupAudio
+	#call SetupAudio
 	
 	# TESTING - always play 500Hz
 	#movi r15, 1
+
 loop:
+/*
 	# TESTING - play 500Hz when KEY0 is pressed
 	movia r16, PUSHBUTTONS
 	ldwio r17, 0(r16)
 	andi r15, r17, 0b1
+*/
 	
 	call DetectColor
 	br loop
+
 end:
 	br end
 
@@ -63,8 +67,8 @@ SetupLego:
 	movia r17, 0x07F557FF
 	stwio r17, 4(r16)
 
-	#SetupLego interrupt; all sensors can interrupt
-	movia r17, 0xF8000000
+	#SetupLego interrupt; only sensor 0 interrupts
+	movia r17, 0x08000000
 	stwio r17, 8(r16)
 
 	ldw r16, 0(sp)
