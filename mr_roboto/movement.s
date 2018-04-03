@@ -15,9 +15,13 @@ Move0:
 	stw r17, 4(sp)
 	stw r18, 8(sp)
 
+
+#PLAN TO HAVE GLOBAL VARIABLE TO STORE STATE OF SENSORS 
+#FOR PWM DAWG 
 	movia r16, JP1
 	ldwio r17, (r16)
 	movia r18, 0xFFFFFFF8 
+
 	and r17, r17, r18
 	stwio r17, (r16)
 

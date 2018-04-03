@@ -43,6 +43,7 @@ DetectColor:
 */
 
 	call 	StopMoving
+	movi	r15, 0
 
 FinishDetect:
 	ldw 	ra,  0(sp)

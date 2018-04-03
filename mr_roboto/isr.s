@@ -138,6 +138,7 @@ Sensor4:
 
 Interrupt0:
     call Move0
+	movi r15, 0b1
     br FinishCheck
 /*
 Interrupt1:
