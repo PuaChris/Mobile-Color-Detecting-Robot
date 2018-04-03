@@ -1,7 +1,20 @@
 Apr 1, 2018
-Chris: 
+Chris:
 	-Modified subroutine names
-	-Added timer.s which includes setup and PWM delay 
+	-Added timer.s which includes setup and PWM delay
 	-Included interrupts for all sensors in state mode
-	-Changed motor direction depending on the sensor 
-	
+	-Changed motor direction depending on the sensor
+
+Mar 28, 2018
+Bruno:
+	-Implemented 500Hz audio output as a 50% high, 50% low square wave
+
+Mar 24, 2018
+Bruno:
+	-Implemented basic audio output interrupt
+
+Mar 20, 2018
+Chris and Bruno:
+	-Created project
+	-Implemented basic Lego state mode using polling with one sensor
+	-Moved forward when a colour is detected and stopped when not detected
