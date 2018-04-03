@@ -1,0 +1,7 @@
+Apr 1, 2018
+Chris: 
+	-Modified subroutine names
+	-Added timer.s which includes setup and PWM delay 
+	-Included interrupts for all sensors in state mode
+	-Changed motor direction depending on the sensor 
+	

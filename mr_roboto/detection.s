@@ -42,7 +42,6 @@ DetectColor:
 	beq 	r17, r0, FinishDetect 
 */
 
-
 	call 	StopMoving
 
 FinishDetect:
