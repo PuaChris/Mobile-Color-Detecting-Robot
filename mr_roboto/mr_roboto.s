@@ -1,44 +1,62 @@
 .equ JP1, 0XFF200060
+.equ PUSHBUTTONS, 0xFF200050
 .equ SP, 0X80000000
 
-.equ SOUND_500Hz, 0b1	# for global r15
-.equ PUSHBUTTONS, 0xFF200050
 
-/*
-Global register allocation:
-r15 - sound to play (see constants)
-*/
+# Global Registers:
+
+# r13 - PWM state
+.equ PWM_OFF, 0
+.equ PWM_ON, 1
+
+# r14 - movement state
+.equ MOVEMENT_STOP, 0
+.equ MOVEMENT_FORWARD, 1
+.equ MOVEMENT_BACKWARD, 2
+.equ MOVEMENT_LEFT, 3
+.equ MOVEMENT_RIGHT, 4
+
+# r15 - audio to play
+.equ AUDIO_EMPTY, 0
+.equ AUDIO_500Hz, 1
+
 
 .global JP1
+
+
+
+
 .section .text
 .global _start
+
 _start:
+	# Setup stack
 	movia sp, SP
-	
+
+	# Setup devices and interrupts
 	call SetupTimer
-	movi r4, 9	# start with threshold 9
 	call SetupLego
-	call SetupGlobalInterrupts
 	call SetupAudio
-	
-	# TESTING - always play 500Hz
-	#movi r15, 1
+	call SetupGlobalInterrupts
 
+	# Defaults
+	movi r13, PWM_OFF
+	movi r14, MOVEMENT_STOP
+	movi r15, AUDIO_EMPTY
+
+	# Start PWM off
+	call StartPWMOffTimer
+
+# Main loop
 loop:
-
-	movia r16, PUSHBUTTONS
-	ldwio r17, 0(r16)
-	andi r18, r17, 0b1	# get KEY0
-
-
-	
 	call DetectColor
 	br loop
 
 end:
 	br end
 
-	
+
+
 
 SetupGlobalInterrupts:
 	subi sp, sp, 4
@@ -48,18 +66,7 @@ SetupGlobalInterrupts:
 	movi r16, 0b1
 	wrctl status, r16
 
-	#Enable lego controller interrupt
-	rdctl r16, ienable
-	ori r16, r16, 0b1 << 11
-	wrctl ienable, r16 
-
-/*
-	#Enable timer interrupt
-	ori r16, r16, 0b1
-	wrctl ienable, r16 
-*/
 	ldw r16, 0(sp)
 	addi sp, sp, 4
 
 	ret
-

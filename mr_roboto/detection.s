@@ -1,22 +1,23 @@
 .section .text
 .global DetectColor
-.global FinishDetect
+
 
 DetectColor:
 	subi 	sp, sp, 12
 	stw 	ra,  0(sp)
 	stw 	r16, 4(sp)
 	stw 	r17, 8(sp)
-#any sensor = 0 means it is detecting a color
-#If all sensors are 1, then no sensors are detecting anything; Stop moving
+
+	#If any sensor = 0, it is detecting a color
+	#If all sensors are 1, then no sensors are detecting anything -> stop moving
 	movia 	r16, JP1
 
 	#sensor 0
-	ldwio 	r17, 0(r16)
+	ldwio 	r17, (r16)
 	srli 	r17, r17, 27
 	andi 	r17, r17, 0x1
 	beq 	r17, r0, FinishDetect
-/*
+
 	#sensor 1
 	ldwio 	r17, (r16)
 	srli 	r17, r17, 28
@@ -39,11 +40,12 @@ DetectColor:
 	ldwio 	r17, (r16)
 	srli 	r17, r17, 31
 	andi 	r17, r17, 0x1
-	beq 	r17, r0, FinishDetect 
-*/
+	beq 	r17, r0, FinishDetect
 
-	call 	StopMoving
-	movi	r15, 0
+
+	# If none of the sensors are 0, stop moving
+	movi	r14, MOVEMENT_STOP
+	movi	r15, AUDIO_EMPTY
 
 FinishDetect:
 	ldw 	ra,  0(sp)
