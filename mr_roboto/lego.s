@@ -4,6 +4,11 @@
 .equ LEGO_STATE_MODE,			0xFFDFFFFF
 .equ LEGO_INTERRUPTS,			0xF8000000
 
+
+/******************************** QUESTION *************************************/
+#is r2 the global variable?
+
+
 .section .text
 .global SetupLego
 
@@ -61,6 +66,9 @@ GetSensor0Value:
 	movia r17, LEGO_DEFAULT
 
 	# Value mode
+	/******************************** QUESTION *************************************/
+
+	# Confused about the operation here. Why did you 'or' it if r17 is 0xffffffff
 	movia r18, 0b1 << 21
 	or r17, r17, r18
 
@@ -79,9 +87,12 @@ Sensor0Loop:
 	andi r17, r17, 0b1
 	bne r17, zero, Sensor0Loop
 
+/******************************** QUESTION *************************************/
+	#Confused about the operation here. What value are you retrieving? 
 	#getting new threshold in r18
 	ldwio r2, 0(r16)
 	srli r2, r2, 27
+	#srli r2, r2, 23?
 	andi r2, r2, 0b1111
 
 	ldw r16, 0(sp)
@@ -113,6 +124,7 @@ SetSensorThresholds:
 
 	movia r16, JP1
 
+
 	# threshold mask
 	slli r4, r4, 23
 
@@ -124,6 +136,8 @@ SetSensorThresholds:
 ThresholdLoop:
 	# Put a 0 in the proper bit for the sensor
 	movi r18, 0b1
+
+	#bug found; should be sll r18, r18, r19
 	sll r18, r19
 	nor r18, r18, zero
 

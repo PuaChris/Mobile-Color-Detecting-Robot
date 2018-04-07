@@ -200,6 +200,9 @@ HandleTimer:
     # Check if PWM is off
     beq r13, zero, HandleTimerOff
 
+/******************************** QUESTION *************************************/
+#I thought r14 determined which direction to move in, not r23?
+
     # If PWM is on, check how to move
     movi r23, MOVEMENT_FORWARD
     beq r13, r23, HandleTimerForward
