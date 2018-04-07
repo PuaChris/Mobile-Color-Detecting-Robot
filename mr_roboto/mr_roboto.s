@@ -49,7 +49,21 @@ _start:
 
 # Main loop
 loop:
+	# Get KEY0
+	movia r16, PUSHBUTTONS
+	ldwio r17, 0(r16)
+	andi r17, r17, 0b1
+
+	# If pressed, setup Lego with a new threshold
+	bne r17, zero, button_on
+	br button_end
+
+button_on:
+	call SetupLego
+
+button_end:
 	call DetectColor
+
 	br loop
 
 end:
