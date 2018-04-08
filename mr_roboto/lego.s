@@ -8,6 +8,7 @@
 /******************************** QUESTION *************************************/
 #is r2 the global variable?
 
+#r2 is a return value from a subroutine
 
 .section .text
 .global SetupLego
@@ -66,11 +67,11 @@ GetSensor0Value:
 	movia r17, LEGO_DEFAULT
 
 	# Value mode
-	/******************************** QUESTION *************************************/
 
+	/******************************** QUESTION *************************************/
 	# Confused about the operation here. Why did you 'or' it if r17 is 0xffffffff
-	movia r18, 0b1 << 21
-	or r17, r17, r18
+
+	# It was meant to activate value mode, but wasn't really necessary
 
 	# Sensor 0 on
 	movi r18, 0b1 << 10
@@ -88,11 +89,11 @@ Sensor0Loop:
 	bne r17, zero, Sensor0Loop
 
 /******************************** QUESTION *************************************/
-	#Confused about the operation here. What value are you retrieving? 
-	#getting new threshold in r18
+	#Confused about the operation here. What value are you retrieving?
+
+	# Read sensor 0 value ("sensor read value" bits)
 	ldwio r2, 0(r16)
 	srli r2, r2, 27
-	#srli r2, r2, 23?
 	andi r2, r2, 0b1111
 
 	ldw r16, 0(sp)
@@ -120,7 +121,7 @@ SetSensorThresholds:
 	mov r16, r4
 	call DisplayHex0
 	mov r4, r16
-	
+
 
 	movia r16, JP1
 
@@ -136,9 +137,7 @@ SetSensorThresholds:
 ThresholdLoop:
 	# Put a 0 in the proper bit for the sensor
 	movi r18, 0b1
-
-	#bug found; should be sll r18, r18, r19
-	sll r18, r19
+	sll r18, r18, r19
 	nor r18, r18, zero
 
 	# Create sequence to load a threshold

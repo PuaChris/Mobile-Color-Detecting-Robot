@@ -203,15 +203,17 @@ HandleTimer:
 /******************************** QUESTION *************************************/
 #I thought r14 determined which direction to move in, not r23?
 
+#It's supposed to be r14 instead of r13 (a bug). r23 is just a temporary value for comparison.
+
     # If PWM is on, check how to move
     movi r23, MOVEMENT_FORWARD
-    beq r13, r23, HandleTimerForward
+    beq r14, r23, HandleTimerForward
     movi r23, MOVEMENT_BACKWARD
-    beq r13, r23, HandleTimerBackward
+    beq r14, r23, HandleTimerBackward
     movi r23, MOVEMENT_LEFT
-    beq r13, r23, HandleTimerLeft
+    beq r14, r23, HandleTimerLeft
     movi r23, MOVEMENT_RIGHT
-    beq r13, r23, HandleTimerRight
+    beq r14, r23, HandleTimerRight
 
     br HandleTimerOff
 
