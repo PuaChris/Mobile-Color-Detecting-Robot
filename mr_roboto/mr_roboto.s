@@ -23,6 +23,14 @@
 
 .global JP1
 
+.global MOVEMENT_STOP
+.global MOVEMENT_FORWARD
+.global MOVEMENT_BACKWARD
+.global MOVEMENT_LEFT
+.global MOVEMENT_RIGHT
+
+.global AUDIO_EMPTY
+.global AUDIO_500Hz
 
 
 

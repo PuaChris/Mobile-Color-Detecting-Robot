@@ -11,9 +11,12 @@
 
 
 .section .text
-.global Move0
-.global Move1
+
 .global StopMoving
+.global MoveForward
+.global MoveBackward
+.global MoveRight
+.global MoveLeft
 
 #Sensor 0 is in the centre
 #Sensor 1 and 2 are placed on the left

@@ -4,8 +4,8 @@
 
 .section .text
 .global SetupTimer
-.global PWMOn
-.global PWMOff
+.global StartPWMOnTimer
+.global StartPWMOffTimer
 
 
 
@@ -18,7 +18,7 @@ SetupTimer:
 	# Enable interrupts on timer
 	movia 	r16, TIMER1
 	stwio 	r0, (r16)
-	movi	0b0001, r17
+	movi	r17, 0b0001
 	stwio 	r17, 4(r16)
 
 	# Enable interrupt on Nios
