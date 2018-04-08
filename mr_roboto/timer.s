@@ -60,9 +60,6 @@ StartTimer:
 
 	ret
 
-
-
-
 StartPWMOnTimer:
 	subi 	sp, sp, 4
 	stw 	ra, 0(sp)
@@ -74,9 +71,6 @@ StartPWMOnTimer:
 	ldw 	ra, 0(sp)
 	addi 	sp, sp, 4
 	ret
-
-
-
 
 
 StartPWMOffTimer:

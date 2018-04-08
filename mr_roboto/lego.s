@@ -1,6 +1,7 @@
 .equ LEGO_DIRECTION,			0x07F557FF
 .equ LEGO_DEFAULT,				0xFFFFFFFF
 .equ LEGO_LOAD_THRESHOLD_BASE, 	0xFFBFFFFF
+.equ LEGO_THRESHOLD_TEMPLATE, 	0xF87FFFFF
 .equ LEGO_STATE_MODE,			0xFFDFFFFF
 .equ LEGO_INTERRUPTS,			0xF8000000
 
@@ -66,13 +67,14 @@ GetSensor0Value:
 	movia r16, JP1
 	movia r17, LEGO_DEFAULT
 
-	# Value mode
+
 
 	/******************************** QUESTION *************************************/
 	# Confused about the operation here. Why did you 'or' it if r17 is 0xffffffff
 
 	# It was meant to activate value mode, but wasn't really necessary
 
+	# Value mode
 	# Sensor 0 on
 	movi r18, 0b1 << 10
 	nor r18, r18, zero	# flips all bits
@@ -107,14 +109,19 @@ Sensor0Loop:
 
 # ------------------------------------------------------------------------------
 # Sets all 5 sensors to the given threshold
-# r4 - threshold (4 bits)
+# r4 - new threshold (4 bits)
 SetSensorThresholds:
-	subi sp, sp, 20
-	stw r16, 0(sp)
-	stw r17, 4(sp)
-	stw r18, 8(sp)
-	stw r19, 12(sp)
-	stw r23, 16(sp)
+/**************** FOUND A BUG ********************************/
+#ra was not stored onto the stack 
+
+	subi sp, sp, 28
+	stw ra, 0(sp)
+	stw r16, 4(sp)
+	stw r17, 8(sp)
+	stw r18, 12(sp)
+	stw r19, 16(sp)
+	stw r20, 20(sp)
+	stw r23, 24(sp)
 
 	# Display the threshold on HEX0
 	# Preserve r4, just in case
@@ -143,7 +150,18 @@ ThresholdLoop:
 	# Create sequence to load a threshold
 	movia r17, LEGO_LOAD_THRESHOLD_BASE	# load, value
 	and r17, r17, r18					# sensor on
-	and r17, r17, r4					# threshold
+
+
+/**************** FOUND A BUG ********************************/
+#When you 'and' with r17 and r4, r17 is left with just the value of the threshold
+#and the rest of the configuration is 0
+
+	movia r20, LEGO_THRESHOLD_TEMPLATE 	# 0xF87FFFFF
+	#used to be able to insert the threshold into the data register without losing 
+	#the rest of the information 
+
+	or r20, r20, r4						
+	and r17, r17, r20					# threshold
 
 	# Write threshold value
 	stwio r17, 0(r16)
@@ -158,10 +176,12 @@ ThresholdLoop:
 	ble r19, r23, ThresholdLoop
 # End loop
 
-	ldw r16, 0(sp)
-	ldw r17, 4(sp)
-	ldw r18, 8(sp)
-	ldw r19, 12(sp)
-	ldw r23, 16(sp)
-	addi sp, sp, 20
+	ldw ra,  0(sp)
+	ldw r16, 4(sp)
+	ldw r17, 8(sp)
+	ldw r18, 12(sp)
+	ldw r19, 16(sp)
+	ldw r20, 20(sp)
+	ldw r23, 24(sp)
+	addi sp, sp, 28
 	ret

@@ -22,7 +22,7 @@
 
 
 .global JP1
-
+	
 .global MOVEMENT_STOP
 .global MOVEMENT_FORWARD
 .global MOVEMENT_BACKWARD
@@ -45,7 +45,11 @@ _start:
 	call SetupTimer
 	call SetupLego
 	call SetupAudio
-	call SetupGlobalInterrupts
+	call SetupButton
+
+	#Enable global interrupt
+	movi r16, 0b1
+	wrctl status, r16
 
 	# Defaults
 	movi r13, PWM_OFF
@@ -57,19 +61,19 @@ _start:
 
 # Main loop
 loop:
-	# Get KEY0
-	movia r16, PUSHBUTTONS
-	ldwio r17, 0(r16)
-	andi r17, r17, 0b1
+	# # Get KEY0
+	# movia r16, PUSHBUTTONS
+	# ldwio r17, 0(r16)
+	# andi r17, r17, 0b1
 
-	# If pressed, setup Lego with a new threshold
-	bne r17, zero, button_on
-	br button_end
+	# # If pressed, setup Lego with a new threshold
+	# bne r17, zero, button_on
+	# br button_end
 
-button_on:
-	call SetupLego
+# button_on:
+# 	call SetupLego
 
-button_end:
+# button_end:
 	call DetectColor
 
 	br loop
@@ -77,18 +81,3 @@ button_end:
 end:
 	br end
 
-
-
-
-SetupGlobalInterrupts:
-	subi sp, sp, 4
-	stw r16, 0(sp)
-
-	#Enable global interrupt
-	movi r16, 0b1
-	wrctl status, r16
-
-	ldw r16, 0(sp)
-	addi sp, sp, 4
-
-	ret

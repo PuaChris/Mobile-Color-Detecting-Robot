@@ -25,6 +25,11 @@ ISR:
     andi    et, et, 0b1 << 11
     bne     et, zero, ISRSensor
 
+    # Check button
+    rdctl   et, ipending
+    andi    et, et, 0b1 << 1
+    bne     et, zero, ISRButton
+
     # Check timer
     rdctl 	et, ipending
     andi    et, et, 0b1
@@ -42,6 +47,10 @@ ISRSensor:
 
 ISRTimer:
     call    HandleTimer
+    br      ISREnd
+
+ISRButton:
+    call    HandleButton
     br      ISREnd
 
 ISREnd:
@@ -239,3 +248,17 @@ HandleTimerEnd:
     addi    sp, sp, 8
 
     ret
+
+HandleButton:
+    subi    sp, sp, 4
+    stw     ra, 0(sp)
+
+    call SetupLego
+
+HandleButtonEnd:
+
+    call ClearButtonRegister
+
+    ldw     ra, 0(sp)
+    addi    sp, sp, 4
+
