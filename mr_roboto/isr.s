@@ -182,7 +182,7 @@ Interrupt4:
 
 
 FinishCheck:
-    #Resetting edge clear register
+    #Resetting edge clear register for state mode
     movia   r17, 0xFFFFFFFF
     stwio   r17, 12(r16)
 

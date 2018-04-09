@@ -16,7 +16,9 @@
             <source_file filepath="true">detection.s</source_file>
             <source_file filepath="true">movement.s</source_file>
             <source_file filepath="true">timer.s</source_file>
-            <source_file filepath="true">threshold.s</source_file>
+            <source_file filepath="true">hex.s</source_file>
+            <source_file filepath="true">lego.s</source_file>
+            <source_file filepath="true">button.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>
@@ -32,13 +34,13 @@
             <linker_section name=".exceptions">
                 <memory_device>SDRAM.s1</memory_device>
                 <base_address>0x00000020</base_address>
-                <end_address>0x000001FF</end_address>
+                <end_address>0x000002FF</end_address>
                 <required_section/>
                 <fixed_base_address/>
             </linker_section>
             <linker_section name=".text">
                 <memory_device>SDRAM.s1</memory_device>
-                <base_address>0x00000200</base_address>
+                <base_address>0x00000300</base_address>
                 <end_address>0x03FFFFFF</end_address>
                 <required_section/>
             </linker_section>

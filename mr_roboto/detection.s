@@ -42,9 +42,9 @@ DetectColor:
 	andi 	r17, r17, 0x1
 	beq 	r17, r0, FinishDetect
 
-
+StopMoving:
 	# If none of the sensors are 0, stop moving
-	movi	r14, MOVEMENT_STOP
+	call 	StopMoving
 	movi	r15, AUDIO_EMPTY
 
 FinishDetect:
