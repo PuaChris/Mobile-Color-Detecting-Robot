@@ -184,8 +184,10 @@ Interrupt4:
 FinishCheck:
     #Resetting edge clear register for state mode
     movia   r17, 0xFFFFFFFF
+	
     stwio   r17, 12(r16)
-
+	#stwio zero, 12(r16)
+	
     ldw     ra,  0(sp)
     ldw     r16, 4(sp)
     ldw     r17, 8(sp)
@@ -209,12 +211,10 @@ HandleTimer:
     # Check if PWM is off
     beq r13, zero, HandleTimerOff
 
-/******************************** QUESTION *************************************/
-#I thought r14 determined which direction to move in, not r23?
-
-#It's supposed to be r14 instead of r13 (a bug). r23 is just a temporary value for comparison.
-
-    # If PWM is on, check how to move
+    # Start the on timer
+	call StartPWMOnTimer
+	
+	# If PWM is on, check how to move
     movi r23, MOVEMENT_FORWARD
     beq r14, r23, HandleTimerForward
     movi r23, MOVEMENT_BACKWARD
@@ -223,12 +223,8 @@ HandleTimer:
     beq r14, r23, HandleTimerLeft
     movi r23, MOVEMENT_RIGHT
     beq r14, r23, HandleTimerRight
+    br HandleTimerStop
 
-    br HandleTimerOff
-
-HandleTimerOff:
-    call StopMoving
-    br HandleTimerEnd
 HandleTimerForward:
     call MoveForward
     br HandleTimerEnd
@@ -241,6 +237,15 @@ HandleTimerLeft:
 HandleTimerRight:
     call MoveRight
     br HandleTimerEnd
+HandleTimerStop:
+	call StopMoving
+	br HandleTimerEnd
+
+HandleTimerOff:
+	# Start the off timer
+	call StartPWMOffTimer
+    call StopMoving
+    br HandleTimerEnd
 
 HandleTimerEnd:
     ldw     ra, 0(sp)
@@ -248,6 +253,8 @@ HandleTimerEnd:
     addi    sp, sp, 8
 
     ret
+
+
 
 HandleButton:
     subi    sp, sp, 4
@@ -261,4 +268,6 @@ HandleButtonEnd:
 
     ldw     ra, 0(sp)
     addi    sp, sp, 4
+
+	ret
 

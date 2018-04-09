@@ -45,12 +45,14 @@ StartTimer:
 
 	movia 	r16, TIMER1
 
+	# Write status register (acknowledge timeout interrupt)
+	stwio	zero, 0(r16)
+
 	# Set period
 	stwio 	r4, 8(r16)
 	stwio 	r5, 12(r16)
 
 	# Start timer (with interrupts)
-	stwio	zero, 0(r16)
 	movi	r17, 0b0101	# start, interrupt
 	stwio	r17, 4(r16)
 
