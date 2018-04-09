@@ -1,12 +1,28 @@
-# TODO - check if M1 is right
+# M0 - left back
+# M1 - right back
+# M2 - right front
+# M3 - left front
 
-# move forward - M1 rev, M0 for
+# S0 - centre
+# S1 - left angle
+# S2 - left horizontal
+# S3 - right angle
+# S4 - right horizontal
+
+# to move forward - left forward, right reverse
+
 .equ LEGO_MOTORS_OFF_OR,	0x3FF
 .equ LEGO_MOTORS_OFF_AND,	0xFFFFFFFF
-.equ LEGO_MOTORS_FORWARD,	0xFFFFFFF8
-.equ LEGO_MOTORS_BACKWARD,	0xFFFFFFF2
-.equ LEGO_MOTORS_LEFT,		0xFFFFFFF0	# TODO - check this
-.equ LEGO_MOTORS_RIGHT,		0xFFFFFFFA	# TODO - check this
+
+#.equ LEGO_MOTORS_FORWARD,	0xFFFFFFF8
+#.equ LEGO_MOTORS_BACKWARD,	0xFFFFFFF2
+#.equ LEGO_MOTORS_LEFT,		0xFFFFFFF0
+#.equ LEGO_MOTORS_RIGHT,	0xFFFFFFFA
+
+.equ LEGO_MOTORS_FORWARD,	0xFFFFFF82
+.equ LEGO_MOTORS_BACKWARD,	0xFFFFFF28
+.equ LEGO_MOTORS_LEFT,		0xFFFFFF00
+.equ LEGO_MOTORS_RIGHT,		0xFFFFFFAA
 
 
 
@@ -17,12 +33,6 @@
 .global MoveBackward
 .global MoveRight
 .global MoveLeft
-
-#Sensor 0 is in the centre
-#Sensor 1 and 2 are placed on the left
-#Sensor 3 and 4 are placed in the right
-#Sensor 2 and 4 are placed horizontally
-
 
 
 

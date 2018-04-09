@@ -47,14 +47,14 @@ _start:
 	call SetupAudio
 	call SetupButton
 
-	#Enable global interrupt
-	movi r16, 0b1
-	wrctl status, r16
-
 	# Defaults
 	movi r13, PWM_OFF
 	movi r14, MOVEMENT_STOP
 	movi r15, AUDIO_EMPTY
+
+	#Enable global interrupt
+	movi r16, 0b1
+	wrctl status, r16
 
 	# Start PWM off
 	call StartPWMOffTimer

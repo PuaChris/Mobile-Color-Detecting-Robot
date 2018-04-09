@@ -1,6 +1,13 @@
 .equ TIMER1, 0xFF202000
-.equ PWM_ON_CYCLES, 262150 #50%
-.equ PWM_OFF_CYCLES, 262150 #50%
+
+#50%
+#.equ PWM_ON_CYCLES, 	262150
+#.equ PWM_OFF_CYCLES, 	262150
+# adds to 524300
+
+#25%
+.equ PWM_ON_CYCLES,		282150
+.equ PWM_OFF_CYCLES,	242150
 
 .section .text
 .global SetupTimer
@@ -66,8 +73,8 @@ StartPWMOnTimer:
 	subi 	sp, sp, 4
 	stw 	ra, 0(sp)
 
-	movia 	r4, %lo(PWM_ON_CYCLES)
-	movia 	r5, %hi(PWM_ON_CYCLES)
+	movui 	r4, %lo(PWM_ON_CYCLES)
+	movui 	r5, %hi(PWM_ON_CYCLES)
 	call 	StartTimer
 
 	ldw 	ra, 0(sp)
@@ -79,8 +86,8 @@ StartPWMOffTimer:
 	subi 	sp, sp, 4
 	stw 	ra, 0(sp)
 
-	movia 	r4, %lo(PWM_OFF_CYCLES)
-	movia 	r5, %hi(PWM_OFF_CYCLES)
+	movui 	r4, %lo(PWM_OFF_CYCLES)
+	movui 	r5, %hi(PWM_OFF_CYCLES)
 	call 	StartTimer
 
 	ldw 	ra, 0(sp)
