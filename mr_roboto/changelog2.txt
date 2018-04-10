@@ -5,6 +5,10 @@ Chris and Bruno:
 	- Fixed bugs with stack variables, subroutines, and timer interrupts
 	- Tested multiple Lego sensors and motors for turning
 
+Apr 8, 2018
+Chris:
+	- Tested and fixed bugs with button interrupt and sensor interrupts 
+
 Apr 7, 2018
 Bruno:
 	- Implemented pushbutton polling to know when to change the sensor threshold
@@ -23,7 +27,6 @@ Bruno:
 Apr 3, 2018
 Chris and Bruno:
 	- Tested and fixed bugs with Lego sensor and audio output interrupts
-
 
 
 
