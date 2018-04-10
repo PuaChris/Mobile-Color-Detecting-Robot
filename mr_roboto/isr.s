@@ -108,13 +108,12 @@ HandleSensor:
     #assuming we're only checking for one sensor interrupting
     #sensors can only interrupt if the state changes from 1 -> 0
     #if sensor is 0, that mean it detects light (below threshold means brighter)
-    #still need to figure out how to stop it
 
     movia   r16, JP1
 
-#check if bit is 1. If it is true, then move foward. Else move onto the next bit
+#Check if bit is 1. If it is true, then move foward. Else move onto the next bit
 #Once you found the bit that triggered the interrupt, check
-#but multiple sensors can trigger the interrupt...
+#Multiple sensors can trigger the interrupt
 
 Sensor0:
     #Checking if sensor0 triggered the interrupt
@@ -151,7 +150,7 @@ Sensor4:
     andi    r17, r17, 1
     bne     r17, zero, Interrupt4
 
-    #At this point, at least ONE of the sensors SHOULD have triggered the interrupt...
+    #At this point, at least one of the sensors should have triggered the interrupt
     br      FinishCheck
 
 
@@ -184,10 +183,10 @@ Interrupt4:
 FinishCheck:
     #Resetting edge clear register for state mode
     movia   r17, 0xFFFFFFFF
-	
+
     stwio   r17, 12(r16)
 	#stwio zero, 12(r16)
-	
+
     ldw     ra,  0(sp)
     ldw     r16, 4(sp)
     ldw     r17, 8(sp)
@@ -213,7 +212,7 @@ HandleTimer:
 
     # Start the on timer
 	call StartPWMOnTimer
-	
+
 	# If PWM is on, check how to move
     movi r23, MOVEMENT_FORWARD
     beq r14, r23, HandleTimerForward
@@ -270,4 +269,3 @@ HandleButtonEnd:
     addi    sp, sp, 4
 
 	ret
-

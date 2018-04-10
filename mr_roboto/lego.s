@@ -6,10 +6,7 @@
 .equ LEGO_INTERRUPTS,			0xF8000000
 
 
-/******************************** QUESTION *************************************/
-#is r2 the global variable?
 
-#r2 is a return value from a subroutine
 
 .section .text
 .global SetupLego
@@ -68,12 +65,6 @@ GetSensor0Value:
 	movia r17, LEGO_DEFAULT
 
 
-
-	/******************************** QUESTION *************************************/
-	# Confused about the operation here. Why did you 'or' it if r17 is 0xffffffff
-
-	# It was meant to activate value mode, but wasn't really necessary
-
 	# Value mode
 	# Sensor 0 on
 	movi r18, 0b1 << 10
@@ -90,8 +81,6 @@ Sensor0Loop:
 	andi r17, r17, 0b1
 	bne r17, zero, Sensor0Loop
 
-/******************************** QUESTION *************************************/
-	#Confused about the operation here. What value are you retrieving?
 
 	# Read sensor 0 value ("sensor read value" bits)
 	ldwio r2, 0(r16)
@@ -111,9 +100,6 @@ Sensor0Loop:
 # Sets all 5 sensors to the given threshold
 # r4 - new threshold (4 bits)
 SetSensorThresholds:
-/**************** FOUND A BUG ********************************/
-#ra was not stored onto the stack 
-
 	subi sp, sp, 28
 	stw ra, 0(sp)
 	stw r16, 4(sp)
@@ -132,15 +118,14 @@ SetSensorThresholds:
 
 	movia r16, JP1
 
-
 	# threshold mask
 	slli r4, r4, 23
 
-	# old value with threshold of 9 was 0x04AFC1FF
 	# In value mode, loading threshold for each sensor (0-4)
 
 	# Index of which bit to make 0 to select a sensor
 	movi r19, 10
+
 ThresholdLoop:
 	# Put a 0 in the proper bit for the sensor
 	movi r18, 0b1
@@ -152,15 +137,11 @@ ThresholdLoop:
 	and r17, r17, r18					# sensor on
 
 
-/**************** FOUND A BUG ********************************/
-#When you 'and' with r17 and r4, r17 is left with just the value of the threshold
-#and the rest of the configuration is 0
-
 	movia r20, LEGO_THRESHOLD_TEMPLATE 	# 0xF87FFFFF
-	#used to be able to insert the threshold into the data register without losing 
-	#the rest of the information 
+	#used to be able to insert the threshold into the data register without losing
+	#the rest of the information
 
-	or r20, r20, r4						
+	or r20, r20, r4
 	and r17, r17, r20					# threshold
 
 	# Write threshold value

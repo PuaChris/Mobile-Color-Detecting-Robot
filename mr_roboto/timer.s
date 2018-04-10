@@ -5,7 +5,6 @@
 #.equ PWM_OFF_CYCLES, 	262150
 # adds to 524300
 
-#25%
 .equ PWM_ON_CYCLES,		282150
 .equ PWM_OFF_CYCLES,	242150
 
@@ -69,6 +68,9 @@ StartTimer:
 
 	ret
 
+
+
+
 StartPWMOnTimer:
 	subi 	sp, sp, 4
 	stw 	ra, 0(sp)
@@ -80,6 +82,8 @@ StartPWMOnTimer:
 	ldw 	ra, 0(sp)
 	addi 	sp, sp, 4
 	ret
+
+
 
 
 StartPWMOffTimer:
